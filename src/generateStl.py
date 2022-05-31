@@ -1,6 +1,6 @@
 #!/bin/python3
 
-import rcubes as rc
+import rcubes.rcubes as rc
 
 
 if __name__ == "__main__":
