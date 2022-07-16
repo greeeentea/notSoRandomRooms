@@ -2,6 +2,7 @@ import numpy as np
 import random as rd
 import math
 from stl import mesh
+import os
 
 
 #	 g +--------+ f
@@ -126,5 +127,8 @@ class cube:
         for i, f in enumerate(FACES):
             for j in range(3):
                 cube.vectors[i][j] = vertices[f[j], :]
+    
 
-        cube.save('../stl_files/'+name+'.stl')
+        if not os.path.exists('../stl'):
+            os.makedirs('../stl')
+            cube.save('../stl/'+name+'.stl')
