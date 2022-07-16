@@ -27,11 +27,6 @@ class Vertex:
         self.y = y
         self.z = z
 
-    def backTo1(self):
-        self.x = abs(self.x) and self.x / abs(self.x) or 0  # a / b
-        self.y = abs(self.y) and self.y / abs(self.y) or 0  # a / b
-        self.z = abs(self.z) and self.z / abs(self.z) or 0  # a / b
-
     def toVector(self):
         return [self.x, self.y, self.z]
 
@@ -47,10 +42,6 @@ class cuboid:
         self.vertices = [Vertex(0, 0, 0), Vertex(x, 0, 0), Vertex(x, x, 0), Vertex(0, x, 0),
                          Vertex(0, 0, x), Vertex(x, 0, x), Vertex(x, x, x), Vertex(0, x, x)]
 
-    def backTo1(self):
-        for v in self.vertices:
-            v.backTo1()
-
     def randomSize(self, roomSize):
         xAxis = rd.uniform(-1, roomSize)
         yAxis = rd.uniform(-1, roomSize)
@@ -62,6 +53,7 @@ class cuboid:
             self.vertices[i+4].y += yAxis
         for i in range(4, 8):
             self.vertices[i].z += zAxis
+        return self
 
     def randomRotate(self):
         angle = rd.uniform(0.0, 360.0)
@@ -72,14 +64,15 @@ class cuboid:
                             [0,  0, 1]])
         for v in self.vertices:
             v = v.updateFromVector(np.matmul(v.toVector(), rotateM))
+        return self
 
     def randomMove(self, roomSize):
-
         Movex = rd.uniform(0, roomSize)
         Movey = rd.uniform(0, roomSize)
         for v in self.vertices:
             v.x += Movex
             v.y += Movey
+        return self
 
     def getNpArray(self):
         a = np.empty(shape=(8, 3))
@@ -96,17 +89,16 @@ class room:
         self.mesh = mesh.Mesh(
             np.zeros(FACES.shape[0] * objNum, dtype=mesh.Mesh.dtype))
         objNumWritten = 0
-        c = cuboid(1)
+        
 
         for _ in range(objNum):
+            c = cuboid(1)
             
             # transforming the object
-            c.backTo1()
-            c.randomRotate()
-            c.randomMove(self.roomSize)
-            c.randomRotate()
-            c.randomSize(self.roomSize)
-
+            c = c.randomMove(self.roomSize)
+            c = c.randomSize(self.roomSize)
+            c = c.randomRotate()
+            
             vertices = c.getNpArray()
 
             for i, fi in enumerate(FACES):
