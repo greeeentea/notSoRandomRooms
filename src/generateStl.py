@@ -4,7 +4,8 @@ import rcubes.rcubes as rc
 
 
 if __name__ == "__main__":
-    cube = rc.cube(20)
+    numberOfObjects = 10
+    roomSize = 10
     
-    
-    cube.writeToStl('cubetest')
+    room = rc.room(numberOfObjects, roomSize)
+    room.writeToStl('cubetest')

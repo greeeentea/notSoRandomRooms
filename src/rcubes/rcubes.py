@@ -1,20 +1,9 @@
 import numpy as np
 import random as rd
 import math
-from stl import mesh
 import os
+from stl import mesh
 
-
-#	 g +--------+ f
-#	  /        /|
-#	 /        / |
-#	+--------+e |
-#	| h      |  |
-#	|c +--------+ b
-#	| /      | /
-#	|/       |/
-#d	+--------+ a
-#
 
 
 FACES = np.array([
@@ -39,9 +28,9 @@ class Vertex:
         self.z = z
 
     def backTo1(self):
-        self.x = self.x/abs(self.x)
-        self.y = self.y/abs(self.y)
-        self.z = self.z/abs(self.z)
+        self.x = abs(self.x) and self.x / abs(self.x) or 0  # a / b
+        self.y = abs(self.y) and self.y / abs(self.y) or 0  # a / b
+        self.z = abs(self.z) and self.z / abs(self.z) or 0  # a / b
 
     def toVector(self):
         return [self.x, self.y, self.z]
@@ -55,22 +44,22 @@ class Vertex:
 
 class cuboid:
     def __init__(self, x):
-        self.vertices = [Vertex(-x, -x, -x), Vertex(x, -x, -x), Vertex(x, x, -x), Vertex(-x, x, -x),
-                         Vertex(-x, -x, x), Vertex(x, -x, x), Vertex(x, x, x), Vertex(-x, x, x)]
+        self.vertices = [Vertex(0, 0, 0), Vertex(x, 0, 0), Vertex(x, x, 0), Vertex(0, x, 0),
+                         Vertex(0, 0, x), Vertex(x, 0, x), Vertex(x, x, x), Vertex(0, x, x)]
 
     def backTo1(self):
         for v in self.vertices:
             v.backTo1()
 
-    def randomSize(self):
-        xAxis = rd.uniform(-1.9, 1.9)
-        yAxis = rd.uniform(-1.9, 1.9)
+    def randomSize(self, roomSize):
+        xAxis = rd.uniform(-1, roomSize)
+        yAxis = rd.uniform(-1, roomSize)
+        zAxis = rd.uniform(-1, roomSize)
         for i in range(0, 2):
             self.vertices[i+1].x += xAxis
             self.vertices[i+5].x += xAxis
             self.vertices[i].y += yAxis
             self.vertices[i+4].y += yAxis
-        zAxis = rd.uniform(-1.9, 1.9)
         for i in range(4, 8):
             self.vertices[i].z += zAxis
 
@@ -84,10 +73,10 @@ class cuboid:
         for v in self.vertices:
             v = v.updateFromVector(np.matmul(v.toVector(), rotateM))
 
-    def randomMove(self):
+    def randomMove(self, roomSize):
 
-        Movex = rd.uniform(-10, 10)
-        Movey = rd.uniform(-10, 10)
+        Movex = rd.uniform(0, roomSize)
+        Movey = rd.uniform(0, roomSize)
         for v in self.vertices:
             v.x += Movex
             v.y += Movey
@@ -101,18 +90,21 @@ class cuboid:
         return a
 
 
-class cube:
-    def __init__(self, objNum):
+class room:
+    def __init__(self, objNum, roomSize):
         self.mesh = mesh.Mesh(
             np.zeros(FACES.shape[0] * objNum, dtype=mesh.Mesh.dtype))
         objNumWritten = 0
         c = cuboid(1)
 
         for _ in range(objNum):
+            
+            # transforming the object
             c.backTo1()
-            c.randomMove()
             c.randomRotate()
-            c.randomSize()
+            c.randomMove(roomSize)
+            c.randomRotate()
+            c.randomSize(roomSize)
 
             vertices = c.getNpArray()
 
