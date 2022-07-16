@@ -91,7 +91,8 @@ class cuboid:
 
 
 class room:
-    def __init__(self, objNum, roomSize):
+    def __init__(self, objNum):
+        self.roomSize = rd.uniform(5, 15)
         self.mesh = mesh.Mesh(
             np.zeros(FACES.shape[0] * objNum, dtype=mesh.Mesh.dtype))
         objNumWritten = 0
@@ -102,9 +103,9 @@ class room:
             # transforming the object
             c.backTo1()
             c.randomRotate()
-            c.randomMove(roomSize)
+            c.randomMove(self.roomSize)
             c.randomRotate()
-            c.randomSize(roomSize)
+            c.randomSize(self.roomSize)
 
             vertices = c.getNpArray()
 
@@ -114,7 +115,8 @@ class room:
                     self.mesh.vectors[i_][j] = vertices[fi[j], :]
             objNumWritten += 1
 
-    def writeToStl(self, name):
-        if not os.path.exists('../stl'):
-            os.makedirs('../stl')
-        self.mesh.save('../stl/'+name+'.stl')
+    def writeToStl(self, path, name):
+        name += "RS_"+ str(self.roomSize)+"_"
+        if not os.path.exists(path):
+            os.makedirs(path)
+        self.mesh.save(path +'/'+name+'.stl')

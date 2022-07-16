@@ -1,11 +1,14 @@
 #!/bin/python3
 
-import rcubes.rcubes as rc
+import rrooms.rrooms as rms
 
 
 if __name__ == "__main__":
-    numberOfObjects = 10
-    roomSize = 10
     
-    room = rc.room(numberOfObjects, roomSize)
-    room.writeToStl('cubetest')
+    times = int(input("Number of random rooms:"))
+    path = input("path to output-folder")
+    numberOfObjects = int(input("Number of random objects:"))
+
+    for x in range(times):
+        room = rms.room(numberOfObjects)
+        room.writeToStl(path,str(x).zfill(4)+ 'von'+str(times)+'_nO'+str(numberOfObjects))
