@@ -38,6 +38,11 @@ class Vertex:
         self.y = y
         self.z = z
 
+    def backTo1(self):
+        self.x = self.x/abs(self.x)
+        self.y = self.y/abs(self.y)
+        self.z = self.z/abs(self.z)
+
     def toVector(self):
         return [self.x, self.y, self.z]
 
@@ -48,33 +53,26 @@ class Vertex:
         return self
 
 
-class cube:
-    def __init__(self):
-        self.a = Vertex(-1.0, -1.0, -1.0)
-        self.b = Vertex(1.0, -1.0, -1.0)
-        self.c = Vertex(1.0, 1.0, -1.0)
-        self.d = Vertex(-1.0, 1.0, -1.0)
-        self.e = Vertex(-1.0, -1.0, 1.0)
-        self.f = Vertex(1.0, -1.0, 1.0)
-        self.g = Vertex(1.0, 1.0, 1.0)
-        self.h = Vertex(-1.0, 1.0, 1.0)
+class cuboid:
+    def __init__(self, x):
+        self.vertices = [Vertex(-x, -x, -x), Vertex(x, -x, -x), Vertex(x, x, -x), Vertex(-x, x, -x),
+                         Vertex(-x, -x, x), Vertex(x, -x, x), Vertex(x, x, x), Vertex(-x, x, x)]
 
-    def randomScale(self):
+    def backTo1(self):
+        for v in self.vertices:
+            v.backTo1()
+
+    def randomSize(self):
         xAxis = rd.uniform(-1.9, 1.9)
-        self.b.x += xAxis
-        self.c.x += xAxis
-        self.f.x += xAxis
-        self.g.x += xAxis
         yAxis = rd.uniform(-1.9, 1.9)
-        self.a.y += yAxis
-        self.b.y += yAxis
-        self.e.y += yAxis
-        self.f.y += yAxis
+        for i in range(0, 2):
+            self.vertices[i+1].x += xAxis
+            self.vertices[i+5].x += xAxis
+            self.vertices[i].y += yAxis
+            self.vertices[i+4].y += yAxis
         zAxis = rd.uniform(-1.9, 1.9)
-        self.e.z += zAxis
-        self.f.z += zAxis
-        self.g.z += zAxis
-        self.h.z += zAxis
+        for i in range(4, 8):
+            self.vertices[i].z += zAxis
 
     def randomRotate(self):
         angle = rd.uniform(0.0, 360.0)
@@ -83,52 +81,48 @@ class cube:
         rotateM = np.array([[cosAngle, -sinAngle, 0],
                             [sinAngle, cosAngle, 0],
                             [0,  0, 1]])
-        self.a = self.a.updateFromVector(np.matmul(self.a.toVector(), rotateM))
-        self.b = self.b.updateFromVector(np.matmul(self.b.toVector(), rotateM))
-        self.c = self.c.updateFromVector(np.matmul(self.c.toVector(), rotateM))
-        self.d = self.d.updateFromVector(np.matmul(self.d.toVector(), rotateM))
-        self.e = self.e.updateFromVector(np.matmul(self.e.toVector(), rotateM))
-        self.f = self.f.updateFromVector(np.matmul(self.f.toVector(), rotateM))
-        self.g = self.g.updateFromVector(np.matmul(self.g.toVector(), rotateM))
-        self.h = self.h.updateFromVector(np.matmul(self.h.toVector(), rotateM))
+        for v in self.vertices:
+            v = v.updateFromVector(np.matmul(v.toVector(), rotateM))
 
     def randomMove(self):
-        Movex = rd.uniform(0, 10)
-        Movey = rd.uniform(0, 10)
-        self.a.y += Movey
-        self.b.y += Movey
-        self.c.y += Movey
-        self.d.y += Movey
-        self.e.y += Movey
-        self.f.y += Movey
-        self.g.y += Movey
-        self.h.y += Movey
-        self.a.x += Movex
-        self.b.x += Movex
-        self.c.x += Movex
-        self.d.x += Movex
-        self.e.x += Movex
-        self.f.x += Movex
-        self.g.x += Movex
-        self.h.x += Movex
+
+        Movex = rd.uniform(-10, 10)
+        Movey = rd.uniform(-10, 10)
+        for v in self.vertices:
+            v.x += Movex
+            v.y += Movey
+
+    def getNpArray(self):
+        a = np.empty(shape=(8, 3))
+        for i in range(8):
+            a[i, 0] = self.vertices[i].x
+            a[i, 1] = self.vertices[i].y
+            a[i, 2] = self.vertices[i].z
+        return a
+
+
+class cube:
+    def __init__(self, objNum):
+        self.mesh = mesh.Mesh(
+            np.zeros(FACES.shape[0] * objNum, dtype=mesh.Mesh.dtype))
+        objNumWritten = 0
+        c = cuboid(1)
+
+        for _ in range(objNum):
+            c.backTo1()
+            c.randomMove()
+            c.randomRotate()
+            c.randomSize()
+
+            vertices = c.getNpArray()
+
+            for i, fi in enumerate(FACES):
+                for j in range(3):
+                    i_ = i + (objNumWritten * FACES.shape[0])
+                    self.mesh.vectors[i_][j] = vertices[fi[j], :]
+            objNumWritten += 1
 
     def writeToStl(self, name):
-        vertices = np.array([
-            [self.a.x, self.a.y, self.a.z],
-            [self.b.x, self.b.y, self.b.z],
-            [self.c.x, self.c.y, self.c.z],
-            [self.d.x, self.d.y, self.d.z],
-            [self.e.x, self.e.y, self.e.z],
-            [self.f.x, self.f.y, self.f.z],
-            [self.g.x, self.g.y, self.g.z],
-            [self.h.x, self.h.y, self.h.z], ])
-
-        cube = mesh.Mesh(np.zeros(FACES.shape[0], dtype=mesh.Mesh.dtype))
-        for i, f in enumerate(FACES):
-            for j in range(3):
-                cube.vectors[i][j] = vertices[f[j], :]
-    
-
         if not os.path.exists('../stl'):
             os.makedirs('../stl')
-            cube.save('../stl/'+name+'.stl')
+        self.mesh.save('../stl/'+name+'.stl')
