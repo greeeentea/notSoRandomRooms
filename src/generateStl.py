@@ -13,11 +13,14 @@ if __name__ == "__main__":
         "-p", "--path",  help="the path for stl-files", required=True)
     parser.add_argument("-o", "--objects",
                         help="the number of objects", required=True, type=int)
+    config = vars(parser.parse_args())
 
-    args = parser.parse_args()
-    config = vars(args)
+    print("~ Creating "+str(config['rooms']) +
+          " rooms with " + str(config['objects']) + " objects in " + config['path'] + ". ~")
 
     for x in range(config['rooms']):
         room = rms.room(config['objects'])
         room.writeToStl(config['path'], str(x).zfill(
             4) + 'von'+str(config['rooms'])+'_nO'+str(config['objects']))
+        
+    print("~ done ~") 
