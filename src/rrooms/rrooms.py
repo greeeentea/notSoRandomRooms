@@ -84,8 +84,13 @@ class cuboid:
 
 
 class room:
-    def __init__(self, objNum):
-        self.roomSize = rd.uniform(5, 15)
+    def __init__(self, objNum, roomSize):
+        print(roomSize)
+        if(roomSize):
+            self.roomSize = roomSize
+        else:
+            self.roomSize = rd.uniform(5, 15)
+            
         self.mesh = mesh.Mesh(
             np.zeros(FACES.shape[0] * objNum, dtype=mesh.Mesh.dtype))
         objNumWritten = 0
