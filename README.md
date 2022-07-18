@@ -7,3 +7,8 @@
 ### Prerequisites
 
     pip install numpy-stl
+    
+### usage example
+
+    python3 generateStl.py -r 22 -p ./TEST -o 7
+
