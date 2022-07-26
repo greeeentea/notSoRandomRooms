@@ -56,7 +56,7 @@ class cuboid:
         return self
 
     def randomRotate(self):
-        angle = rd.uniform(0.0, 360.0)
+        angle = rd.uniform(0.0, 90.0)
         cosAngle = math.cos(angle)
         sinAngle = math.sin(angle)
         rotateM = np.array([[cosAngle, -sinAngle, 0],
@@ -67,8 +67,8 @@ class cuboid:
         return self
 
     def randomMove(self, roomSize):
-        Movex = rd.uniform(0, roomSize)
-        Movey = rd.uniform(0, roomSize)
+        Movex = rd.uniform(0, 2*roomSize)
+        Movey = rd.uniform(0, 2*roomSize)
         for v in self.vertices:
             v.x += Movex
             v.y += Movey
