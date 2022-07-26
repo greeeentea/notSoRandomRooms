@@ -43,9 +43,9 @@ class cuboid:
                          Vertex(0, 0, x), Vertex(x, 0, x), Vertex(x, x, x), Vertex(0, x, x)]
 
     def randomSize(self, roomSize):
-        xAxis = rd.uniform(-1, roomSize)
-        yAxis = rd.uniform(-1, roomSize)
-        zAxis = rd.uniform(-1, roomSize)
+        xAxis = rd.uniform(-1, roomSize/2)
+        yAxis = rd.uniform(-1, roomSize/2)
+        zAxis = rd.uniform(-1, roomSize/2)
         for i in range(0, 2):
             self.vertices[i+1].x += xAxis
             self.vertices[i+5].x += xAxis
@@ -63,12 +63,12 @@ class cuboid:
                             [sinAngle, cosAngle, 0],
                             [0,  0, 1]])
         for v in self.vertices:
-            v = v.updateFromVector(np.matmul(v.toVector(), rotateM))
+            v = v.updateFromVector(np.matmul(rotateM, v.toVector()))
         return self
 
     def randomMove(self, roomSize):
-        Movex = rd.uniform(0, roomSize/2)
-        Movey = rd.uniform(0, roomSize/2)
+        Movex = rd.uniform(0, roomSize)
+        Movey = rd.uniform(0, roomSize)
         for v in self.vertices:
             v.x += Movex
             v.y += Movey
@@ -99,9 +99,7 @@ class room:
             c = cuboid(1)
             
             # transforming the object
-            c = c.randomMove(self.roomSize)
-            c = c.randomSize(self.roomSize)
-            c = c.randomRotate()
+            c = c.randomSize(self.roomSize).randomRotate().randomMove(self.roomSize)
             
             vertices = c.getNpArray()
 
