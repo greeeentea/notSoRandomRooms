@@ -67,8 +67,8 @@ class cuboid:
         return self
 
     def randomMove(self, roomSize):
-        Movex = rd.uniform(0, roomSize)
-        Movey = rd.uniform(0, roomSize)
+        Movex = rd.uniform(0, roomSize/2)
+        Movey = rd.uniform(0, roomSize/2)
         for v in self.vertices:
             v.x += Movex
             v.y += Movey
@@ -85,7 +85,6 @@ class cuboid:
 
 class room:
     def __init__(self, objNum, roomSize):
-        print(roomSize)
         if(roomSize):
             self.roomSize = roomSize
         else:
