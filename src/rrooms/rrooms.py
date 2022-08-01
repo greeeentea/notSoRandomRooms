@@ -44,7 +44,7 @@ class cuboid:
     def randomSize(self, roomSize):
         xAxis = rd.uniform(-1, roomSize/2)
         yAxis = rd.uniform(-1, roomSize/2)
-        zAxis = 3  # equal hight
+        zAxis = roomSize/4
         for i in range(0, 2):
             self.vertices[i+1].x += xAxis
             self.vertices[i+5].x += xAxis
