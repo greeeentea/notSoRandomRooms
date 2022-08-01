@@ -65,6 +65,14 @@ class cuboid:
                 diff = vertex.y - roomSize + smallValue
                 for v in self.vertices:
                     v.y = v.y - diff
+            if (vertex.x < 0):
+                diff = vertex.x - smallValue
+                for v in self.vertices:
+                    v.x = v.x - diff
+            if (vertex.y < 0):
+                diff = vertex.y - smallValue
+                for v in self.vertices:
+                    v.y = v.y - diff
         return self
 
     def randomRotate(self):
