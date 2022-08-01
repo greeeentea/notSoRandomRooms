@@ -10,5 +10,5 @@
     
 ### usage example
 
-    python3 generateStl.py -r 22 -p ./TEST -o 7
+    ./generateStl.py -r 10 -p ./test -o 10 -rs 10
 
