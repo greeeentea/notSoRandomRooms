@@ -5,7 +5,6 @@ import os
 from stl import mesh
 
 
-
 FACES = np.array([
     [0, 3, 1],
     [1, 3, 2],
@@ -45,7 +44,7 @@ class cuboid:
     def randomSize(self, roomSize):
         xAxis = rd.uniform(-1, roomSize/2)
         yAxis = rd.uniform(-1, roomSize/2)
-        zAxis = rd.uniform(-1, roomSize/2)
+        zAxis = 3  # equal hight
         for i in range(0, 2):
             self.vertices[i+1].x += xAxis
             self.vertices[i+5].x += xAxis
@@ -55,8 +54,21 @@ class cuboid:
             self.vertices[i].z += zAxis
         return self
 
+    def stayInRoom(self, roomSize):
+        smallValue = rd.uniform(0, 1)
+        for vertex in self.vertices:
+            if (vertex.x > roomSize):
+                diff = vertex.x - roomSize + smallValue
+                for v in self.vertices:
+                    v.x = v.x - diff
+            if (vertex.y > roomSize):
+                diff = vertex.y - roomSize + smallValue
+                for v in self.vertices:
+                    v.y = v.y - diff
+        return self
+
     def randomRotate(self):
-        angle = rd.uniform(0.0, 90.0)
+        angle = rd.uniform(0.0, 9.0)
         cosAngle = math.cos(angle)
         sinAngle = math.sin(angle)
         rotateM = np.array([[cosAngle, -sinAngle, 0],
@@ -89,18 +101,18 @@ class room:
             self.roomSize = roomSize
         else:
             self.roomSize = rd.uniform(5, 15)
-            
+
         self.mesh = mesh.Mesh(
             np.zeros(FACES.shape[0] * objNum, dtype=mesh.Mesh.dtype))
         objNumWritten = 0
-        
 
         for _ in range(objNum):
             c = cuboid(1)
-            
+
             # transforming the object
-            c = c.randomSize(self.roomSize).randomRotate().randomMove(self.roomSize)
-            
+            c = c.randomSize(self.roomSize).randomRotate().randomMove(
+                self.roomSize).stayInRoom(self.roomSize)
+
             vertices = c.getNpArray()
 
             for i, fi in enumerate(FACES):
@@ -110,7 +122,7 @@ class room:
             objNumWritten += 1
 
     def writeToStl(self, path, name):
-        name += "RS_"+ str(self.roomSize)+"_"
+        name += "RS_" + str(self.roomSize)+"_"
         if not os.path.exists(path):
             os.makedirs(path)
-        self.mesh.save(path +'/'+name+'.stl')
+        self.mesh.save(path + '/'+name+'.stl')
