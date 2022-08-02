@@ -1,6 +1,6 @@
 # randomRooms
 
-`generateSTL.py` creates a stl-file representing a "room" with n objects. these objets are cuboids of random size (maximal room size/2), that are rotated randomly in the xy-plane.
+`generateSTL.py` creates a stl-file representing of a "room" with n objects. these objects are cuboids of random size (maximal room size/2), that are rotated randomly in the xy-plane.
 
 ![alt text](https://github.com/greeeentea/randomCubes/blob/main/img/randomroom.png?raw=true)
 
