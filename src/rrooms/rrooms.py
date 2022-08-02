@@ -3,6 +3,7 @@ import random as rd
 import math
 import os
 from stl import mesh
+from datetime import datetime
 
 
 FACES = np.array([
@@ -130,7 +131,10 @@ class room:
             objNumWritten += 1
 
     def writeToStl(self, path, name):
-        name += "RS_" + str(self.roomSize)+"_"
+        dateTimeObj = datetime.now()
+        timestampStr = dateTimeObj.strftime("d%d%d%Yt%H%M%S%f")
+
+        name += "rs" + str(self.roomSize)+ timestampStr
         if not os.path.exists(path):
             os.makedirs(path)
         self.mesh.save(path + '/'+name+'.stl')

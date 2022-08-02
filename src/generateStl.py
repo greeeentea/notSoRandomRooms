@@ -22,7 +22,6 @@ if __name__ == "__main__":
 
     for x in range(config['rooms']):
         room = rms.room(config['objects'], config['roomsize'])
-        room.writeToStl(config['path'], str(x).zfill(
-            4) + 'von'+str(config['rooms'])+'_nO'+str(config['objects']))
-        
-    print("~ done ~") 
+        room.writeToStl(config['path'], 'n'+str(config['objects']))
+
+    print("~ done ~")
