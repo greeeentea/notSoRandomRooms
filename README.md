@@ -8,7 +8,10 @@
 
     pip install numpy-stl
     
-### usage example
+### Example
 
     ./generateStl.py -r 10 -p ./test -o 10 -rs 10
 
+### Naming of output stl-file
+
+`n{#objects}rs{room-size}d{date as day month year}t{time as hour minutes ..}.stl`
