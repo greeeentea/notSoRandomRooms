@@ -4,6 +4,10 @@
 
 ![alt text](https://github.com/greeeentea/randomCubes/blob/main/img/randomroom.png?raw=true)
 
+#### Naming of output stl-file
+
+n{#objects}rs{room-size}d{date as day month year}t{time as hour minutes ..}.stl
+
 ### Prerequisites
 
     pip install numpy-stl
@@ -12,6 +16,4 @@
 
     ./generateStl.py -r 10 -p ./test -o 10 -rs 10
 
-### Naming of output stl-file
 
-`n{#objects}rs{room-size}d{date as day month year}t{time as hour minutes ..}.stl`
