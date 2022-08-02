@@ -131,7 +131,7 @@ class room:
             objNumWritten += 1
 
     def writeToStl(self, path, name):
-        timeStamp = datetime.now().strftime("d%d%d%Yt%H%M%S%f")
+        timeStamp = datetime.now().strftime("d%d%m%Yt%H%M%S%f")
         name += "rs" + str(self.roomSize)+ timeStamp
         if not os.path.exists(path):
             os.makedirs(path)
