@@ -42,10 +42,13 @@ class cuboid:
         self.vertices = [Vertex(0, 0, 0), Vertex(x, 0, 0), Vertex(x, x, 0), Vertex(0, x, 0),
                          Vertex(0, 0, x), Vertex(x, 0, x), Vertex(x, x, x), Vertex(0, x, x)]
 
-    def randomSize(self, roomSize):
-        xAxis = rd.uniform(-1, roomSize/2)
-        yAxis = rd.uniform(-1, roomSize/2)
-        zAxis = roomSize/4
+    def randomSize(self, roomSize, objectSize):
+        if(objectSize):
+            xAxis = yAxis = zAxis = objectSize -1
+        else:
+            xAxis = rd.uniform(-1, roomSize/2)
+            yAxis = rd.uniform(-1, roomSize/2)
+            zAxis = roomSize/4
         for i in range(0, 2):
             self.vertices[i+1].x += xAxis
             self.vertices[i+5].x += xAxis
@@ -105,7 +108,7 @@ class cuboid:
 
 
 class room:
-    def __init__(self, objNum, roomSize):
+    def __init__(self, objNum, roomSize, objectSize):
         if(roomSize):
             self.roomSize = roomSize
         else:
@@ -119,7 +122,7 @@ class room:
             c = cuboid(1)
 
             # transforming the object
-            c = c.randomSize(self.roomSize).randomRotate().randomMove(
+            c = c.randomSize(self.roomSize, objectSize).randomRotate().randomMove(
                 self.roomSize).stayInRoom(self.roomSize)
 
             vertices = c.getNpArray()
@@ -131,8 +134,8 @@ class room:
             objNumWritten += 1
 
     def writeToStl(self, path, name):
-        timeStamp = datetime.now().strftime("d%d%m%Yt%H%M%S%f")
-        name += "rs" + str(self.roomSize)+ timeStamp
+        timeStamp = datetime.now().strftime('d%d%m%Yt%H%M%S%f')
+        name += 'rs' + str(self.roomSize) + timeStamp
         if not os.path.exists(path):
             os.makedirs(path)
         self.mesh.save(path + '/'+name+'.stl')
