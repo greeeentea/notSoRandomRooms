@@ -6,7 +6,7 @@
 
 #### Naming of output stl-file
 
-n{#objects}rs{room-size}d{date as day month year}t{time as hour minutes ..}.stl
+_{given object-size}_n{#objects}rs{room-size}d{date as day month year}t{time as hour minutes ..}.stl
 
 ### Prerequisites
 
