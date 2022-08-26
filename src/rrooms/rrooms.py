@@ -43,12 +43,12 @@ class cuboid:
                          Vertex(0, 0, x), Vertex(x, 0, x), Vertex(x, x, x), Vertex(0, x, x)]
 
     def randomSize(self, roomSize, objectSize):
+        zAxis = roomSize/4
         if(objectSize):
-            xAxis = yAxis = zAxis = objectSize -1
+            xAxis = yAxis = objectSize -1
         else:
             xAxis = rd.uniform(-1, roomSize/2)
             yAxis = rd.uniform(-1, roomSize/2)
-            zAxis = roomSize/4
         for i in range(0, 2):
             self.vertices[i+1].x += xAxis
             self.vertices[i+5].x += xAxis
