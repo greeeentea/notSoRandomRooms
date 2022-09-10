@@ -1,4 +1,4 @@
-# randomRooms
+# notSoRandomRooms
 
 `generateSTL.py` creates a stl-file representing of a "room" with n objects. these objects are cuboids of random size (maximal room size/2), that are rotated randomly in the xy-plane.
 
