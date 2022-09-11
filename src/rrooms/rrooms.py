@@ -91,8 +91,8 @@ class cuboid:
         return self
 
     def randomMove(self, roomSize):
-        Movex = rd.uniform(0, 2*roomSize)
-        Movey = rd.uniform(0, 2*roomSize)
+        Movex = rd.uniform(0, roomSize)
+        Movey = rd.uniform(0, roomSize)
         for v in self.vertices:
             v.x += Movex
             v.y += Movey
