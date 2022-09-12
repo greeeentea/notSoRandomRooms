@@ -90,9 +90,9 @@ class cuboid:
             v = v.updateFromVector(np.matmul(rotateM, v.toVector()))
         return self
 
-    def randomMove(self, roomSize):
-        Movex = rd.uniform(0, roomSize)
-        Movey = rd.uniform(0, roomSize)
+    def randomMove(self, roomSize, objectSize):
+        Movex = rd.uniform(0, roomSize-objectSize)
+        Movey = rd.uniform(0, roomSize-objectSize)
         for v in self.vertices:
             v.x += Movex
             v.y += Movey
@@ -123,7 +123,7 @@ class room:
 
             # transforming the object
             c = c.randomSize(self.roomSize, objectSize).randomRotate().randomMove(
-                self.roomSize).stayInRoom(self.roomSize)
+                self.roomSize, objectSize).stayInRoom(self.roomSize)
 
             vertices = c.getNpArray()
 
