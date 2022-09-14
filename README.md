@@ -2,7 +2,7 @@
 
 `generateSTL.py` creates a stl-file representing of a "room" with n objects. these objects are randomly placed cuboids, that are rotated randomly in the xy-plane. they can overlap! 
 
-the object-size as well as the room-size can be specified. Otherwise they are also chosen randomly.
+the object-size as well as the room-size can be specified. otherwise they are also chosen randomly.
 
 ![alt text](https://github.com/greeeentea/randomCubes/blob/main/img/randomroom.png?raw=true)
 
