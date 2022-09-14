@@ -1,6 +1,7 @@
 # notSoRandomRooms
 
-`generateSTL.py` creates a stl-file representing of a "room" with n objects. these objects are cuboids of random size (maximal room size/2), that are rotated randomly in the xy-plane.
+`generateSTL.py` creates a stl-file representing of a "room" with n objects. these objects are randomly placed cuboids, that are rotated randomly in the xy-plane. they can overlap! 
+The object-size as well as the room-size can be specified. Otherwise they are also chosen randomly.
 
 ![alt text](https://github.com/greeeentea/randomCubes/blob/main/img/randomroom.png?raw=true)
 
@@ -14,6 +15,6 @@ _{given object-size}_n{#objects}rs{room-size}d{date as day month year}t{time as 
     
 ### Example
 
-    ./generateStl.py -r 10 -p ./test -o 10 -rs 10
+    ./generateStl.py -r 10 -p ./test -o 10 -rs 10 -os 1
 
 
