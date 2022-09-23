@@ -26,7 +26,7 @@ if __name__ == '__main__':
         randomFile2 = random.choice(os.listdir(config['folder2']))
 
         mesh1 = mesh.Mesh.from_file(config['folder1']+randomFile1)
-        mesh2 = mesh.Mesh.from_file(config['folder2']+randomFile1)
+        mesh2 = mesh.Mesh.from_file(config['folder2']+randomFile2)
 
         combinedFileName = randomFile1[len(
         randomFile1)-21:len(randomFile1)-4]+randomFile1[len(randomFile2)-21:len(randomFile2)]
