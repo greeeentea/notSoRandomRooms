@@ -18,6 +18,8 @@ if __name__ == '__main__':
         '-n', '--ntimes',  help='n files will be generated', required=True, type=int)
     parser.add_argument(
         '-d', '--destination',  help='destination for saving the combined stl', required=True)
+    parser.add_argument(
+        '-f1n', '--f1name',  help='full name of f1-file in output-file-name', action='store_true')
 
     config = vars(parser.parse_args())
 
@@ -30,6 +32,9 @@ if __name__ == '__main__':
 
         combinedFileName = randomFile1[len(
         randomFile1)-25:len(randomFile1)-4]+randomFile1[len(randomFile2)-25:len(randomFile2)]
-
+        
+        if(config['f1name']):
+            combinedFileName = randomFile1[0:len(randomFile1)-4]+randomFile1[len(randomFile2)-25:len(randomFile2)]
+            
         combined = mesh.Mesh(numpy.concatenate([mesh1.data, mesh2.data]))
         combined.save(config['destination']+combinedFileName, mode=stl.Mode.ASCII)
