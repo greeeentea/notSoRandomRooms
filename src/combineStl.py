@@ -45,7 +45,7 @@ if __name__ == '__main__':
         randomFile1)-25:len(randomFile1)-4]+randomFile2[len(randomFile2)-25:len(randomFile2)]
         
         if(config['f1name']):
-            combinedFileName = randomFile1[0:len(randomFile1)-4]+randomFile1[len(randomFile2)-25:len(randomFile2)]
+            combinedFileName = randomFile1[10:len(randomFile1)-4]+randomFile1[len(randomFile2)-25:len(randomFile2)]
             
         combined = mesh.Mesh(numpy.concatenate([mesh1.data, mesh2.data]))
         combined.save(config['destination']+combinedFileName, mode=stl.Mode.ASCII)
