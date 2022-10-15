@@ -1,4 +1,6 @@
 import argparse
+from operator import truediv
+from tkinter import StringVar
 import numpy
 import stl
 import os
@@ -20,19 +22,20 @@ if __name__ == '__main__':
         '-d', '--destination',  help='destination for saving the combined stl', required=True)
 
     config = vars(parser.parse_args())
+    
+    firstFolder         = os.listdir(config['folder1']);
+    secondFolder        = os.listdir(config['folder2']);
+     
 
     for n in range(config['ntimes']):
         
-        firstFolder         = os.listdir(config['folder1']);
-        secondFolder        = os.listdir(config['folder2']);
-
         randomFile1         = numpy.random.choice(firstFolder,replace=True)
         randomFile2         = numpy.random.choice(secondFolder,replace=True)
         
         mesh1               = mesh.Mesh.from_file(config['folder1']+randomFile1)
         mesh2               = mesh.Mesh.from_file(config['folder2']+randomFile2)
         
-        combinedFileName    = hashlib.shake_128((randomFile1+randomFile2).encode('utf-8')).hexdigest(255) +".stl"
+        combinedFileName    = hashlib.shake_128((randomFile1+randomFile2).encode('utf-8')).hexdigest(66) +".stl"
             
         combined            = mesh.Mesh(numpy.concatenate([mesh1.data, mesh2.data]))
         combined.save(config['destination']+combinedFileName, mode=stl.Mode.ASCII)
