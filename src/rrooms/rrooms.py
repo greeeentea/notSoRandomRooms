@@ -138,7 +138,7 @@ class room:
 
     def writeToStl(self, path, name):
         timeStamp = datetime.now().strftime('d%d%m%Yt%H%M%S%f')
-        name += 'rs' + str(self.roomSize) + timeStamp
+        name += timeStamp + 'rs' + str(self.roomSize)
         if not os.path.exists(path):
             os.makedirs(path)
         self.mesh.save(path + '/'+name+'.stl')
