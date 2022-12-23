@@ -80,7 +80,7 @@ class cuboid:
         return self
 
     def randomRotate(self):
-        angle = rd.uniform(0.0, 9.0)
+        angle = rd.uniform(0.0, 90.0)
         cosAngle = math.cos(angle)
         sinAngle = math.sin(angle)
         rotateM = np.array([[cosAngle, -sinAngle, 0],
