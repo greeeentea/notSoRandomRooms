@@ -113,6 +113,9 @@ class room:
             self.roomSize = roomSize
         else:
             self.roomSize = rd.uniform(5, 15)
+            
+        if(objectSize == None):
+            objectSize = rd.uniform(0.1, self.roomSize/2)
 
         self.mesh = mesh.Mesh(
             np.zeros(FACES.shape[0] * objNum, dtype=mesh.Mesh.dtype))
