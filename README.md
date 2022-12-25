@@ -20,7 +20,7 @@ _{given object-size}_n{#objects}d{date as day month year}t{time as hour minutes 
     
 ### Pages
 
-    [https://mqrion.github.io/notSoRandomRooms/](https://mqrion.github.io/notSoRandomRooms/)
+    https://mqrion.github.io/notSoRandomRooms/
     
     
 
